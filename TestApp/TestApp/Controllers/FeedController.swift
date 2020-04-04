@@ -11,7 +11,7 @@ import UIKit
 class FeedController: UIViewController {
 
     // MARK: - Variables
-    var dataSource = FeedDataSource()
+    private var dataSource = FeedDataSource()
     
     
     // MARK: - View LifeCycle
@@ -25,8 +25,10 @@ class FeedController: UIViewController {
     private func initialSetup() {
         view.backgroundColor = .white
         
-        dataSource.fetchFeed {
-            print("dfghj")
+        dataSource.fetchFeed { (isSuccess) in
+            if isSuccess {
+                
+            }
         }
     }
 

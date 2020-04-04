@@ -10,13 +10,34 @@ import Foundation
 
 class FeedDataSource {
     
-    func fetchFeed(completion: @escaping (()->())) {
+    var factListViewModel: FactListViewModel?
+    
+    func fetchFeed(completion: @escaping ((Bool)->())) {
         if let factUrl = URL(string: NetworkKeys.facts) {
             var urlRequest = URLRequest(url: factUrl)
             urlRequest.httpMethod = "GET"
             NetworkManager.shared.sendRequest(request: urlRequest) { (result, error) in
-                completion()
+                if let data = result {
+                    do {
+                        self.factListViewModel = try JSONDecoder().decode(FactListViewModel.self, from: data)
+                        completion(true)
+                    } catch {
+                        completion(false)
+                    }
+                }
             }
         }
+        completion(false)
+    }
+}
+
+struct FactListViewModel: Decodable {
+    
+    var title: String?
+    var facts: [FactModel] = []
+    
+    private enum CodingKeys: String, CodingKey {
+        case title
+        case facts = "rows"
     }
 }

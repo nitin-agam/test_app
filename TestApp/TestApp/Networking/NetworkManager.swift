@@ -21,7 +21,7 @@ public class NetworkManager {
     
     // MARK: - Public Methods
     func sendRequest(request: URLRequest,
-                     completion: @escaping (_ result: Any?, _ error: Error?) -> ()) -> Void {
+                     completion: @escaping (_ data: Data?, _ error: Error?) -> ()) -> Void {
         
         if NetworkReachabilityManager()?.isReachable == true {
             
@@ -32,12 +32,12 @@ public class NetworkManager {
             AF.request(request).responseJSON(completionHandler:
                 { (DataResponse) in
                     guard let data = DataResponse.data else { return }
-                    let json = self.jsonFromData(data: data)
+                    let formattedData = self.formatData(data: data)
                     
                     if kAPILogEnabled {
-                        print("network_manager: URL String: \(String(describing: request.url?.absoluteString)) and response: \(String(describing: json.responseData))")
+                        print("network_manager: URL String: \(String(describing: request.url?.absoluteString)) and response: \(String(describing: formattedData))")
                     }
-                    completion(json.responseData, json.error)
+                    completion(formattedData, nil)
             })
             
         } else {
@@ -46,6 +46,13 @@ public class NetworkManager {
     }
     
     // MARK: - Private Method
+    private func formatData(data: Data) -> Data? {
+        if let utf8Data = String(decoding: data, as: UTF8.self).data(using: .utf8) {
+            return (Data(utf8Data))
+        }
+        return (nil)
+    }
+    
     private func jsonFromData(data: Data) -> (responseData: Any?, error: Error?) {
         if let utf8Data = String(decoding: data, as: UTF8.self).data(using: .utf8) {
             do {
