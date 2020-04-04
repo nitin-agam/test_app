@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		18EB856D2438F5F800579F03 /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EB856C2438F5F800579F03 /* FeedController.swift */; };
+		18EB856F2438F76300579F03 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EB856E2438F76300579F03 /* NetworkManager.swift */; };
 		18F7A7B02436269600D74BA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A7AF2436269600D74BA3 /* AppDelegate.swift */; };
 		18F7A7B92436269800D74BA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18F7A7B82436269800D74BA3 /* Assets.xcassets */; };
 		18F7A7BC2436269800D74BA3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18F7A7BA2436269800D74BA3 /* LaunchScreen.storyboard */; };
@@ -16,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		18EB856C2438F5F800579F03 /* FeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController.swift; sourceTree = "<group>"; };
+		18EB856E2438F76300579F03 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		18F7A7AC2436269600D74BA3 /* TestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F7A7AF2436269600D74BA3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = TestApp/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		18F7A7B82436269800D74BA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		18F7A7C6243628A600D74BA3 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				18EB856E2438F76300579F03 /* NetworkManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18EB856F2438F76300579F03 /* NetworkManager.swift in Sources */,
 				18F7A7B02436269600D74BA3 /* AppDelegate.swift in Sources */,
 				18EB856D2438F5F800579F03 /* FeedController.swift in Sources */,
 			);
