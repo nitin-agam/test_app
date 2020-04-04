@@ -20,6 +20,7 @@ class FeedDataSource {
                 if let data = result {
                     do {
                         self.factListViewModel = try JSONDecoder().decode(FactListViewModel.self, from: data)
+                        self.factListViewModel?.filterData()
                         completion(true)
                     } catch {
                         completion(false)
@@ -39,5 +40,23 @@ struct FactListViewModel: Decodable {
     private enum CodingKeys: String, CodingKey {
         case title
         case facts = "rows"
+    }
+    
+    mutating func filterData() {
+        facts = facts.filter { (model) -> Bool in
+            
+            if let title = model.title, title.isEmpty == false {
+                return true
+            }
+            
+            if let description = model.description, description.isEmpty == false {
+                return true
+            }
+            
+            if let imageHref = model.imageHref, imageHref.isEmpty == false {
+                return true
+            }
+            return false
+        }
     }
 }
