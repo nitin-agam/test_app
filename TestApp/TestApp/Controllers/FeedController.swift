@@ -11,6 +11,12 @@ import UIKit
 class FeedController: UITableViewController {
 
     // MARK: - Variables
+    private let dataRefreshControl: UIRefreshControl = {
+        let refresher = UIRefreshControl(frame: .zero)
+        refresher.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        return refresher
+    }()
+    
     private var dataSource = FeedDataSource()
     private var tableDataSource: TableDataSource<FactListTableCell, FactModel>?
     
@@ -19,6 +25,7 @@ class FeedController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
+        fetchData()
     }
     
     
@@ -29,12 +36,20 @@ class FeedController: UITableViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.allowsSelection = false
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tableView.refreshControl = self.dataRefreshControl
+        
+        self.tableView.register(FactListTableCell.self, forCellReuseIdentifier: String(describing: FactListTableCell.self))
+        self.tableView.delegate = self
+    }
+    
+    private func fetchData() {
         dataSource.fetchFeed { [weak self] (isSuccess) in
             if let self = self {
                 if isSuccess {
-                    self.dataSetup()
+                    self.dataSourceSetup()
                     self.navigationTitleSetup()
                     DispatchQueue.main.async {
+                        self.dataRefreshControl.endRefreshing()
                         self.tableView.reloadData()
                     }
                 }
@@ -48,9 +63,8 @@ class FeedController: UITableViewController {
         }
     }
     
-    private func dataSetup() {
+    private func dataSourceSetup() {
         if let facts = self.dataSource.factListViewModel?.facts {
-            self.tableView.register(FactListTableCell.self, forCellReuseIdentifier: String(describing: FactListTableCell.self))
             self.tableDataSource = TableDataSource(identifier: String(describing: FactListTableCell.self),
                                                    items: facts,
                                                    configure:
@@ -58,8 +72,12 @@ class FeedController: UITableViewController {
                     cell.fact = factModel
             })
             self.tableView.dataSource = self.tableDataSource
-            self.tableView.delegate = self
         }
+    }
+    
+    @objc private func handleRefreshControl() {
+        
+        fetchData()
     }
 }
 
