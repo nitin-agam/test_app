@@ -31,7 +31,9 @@ class FactListTableCell: BaseTableCell {
         didSet {
             guard let model = fact else { return }
             
+            // if image not exists due to any reason then showing back color
             if let imageUrl = URL(string: model.imageHref ?? "") {
+                self.thumbnail.backgroundColor = FactListTableCell.thumbnailBackColor
                 self.thumbnail.sd_setImage(with: imageUrl,
                                                     placeholderImage: nil,
                                                     options: .avoidAutoSetImage)
@@ -43,6 +45,7 @@ class FactListTableCell: BaseTableCell {
                             return
                         }
                         
+                        // check the image for correct url before setting it
                         if let thumbnailImage = image, url?.absoluteString == model.imageHref {
                             self.thumbnail.image = thumbnailImage
                             self.thumbnail.backgroundColor = .clear
@@ -55,18 +58,25 @@ class FactListTableCell: BaseTableCell {
                 self.thumbnail.backgroundColor = FactListTableCell.thumbnailBackColor
             }
             
+            
             let attributedText = NSMutableAttributedString()
             if let title = model.title, title.isEmpty == false {
-                attributedText.append(NSAttributedString(string: title, attributes: [.font: UIFont.boldSystemFont(ofSize: 18), .foregroundColor: UIColor.black]))
+                attributedText.append(NSAttributedString(string: title,
+                                                         attributes: [.font: UIFont.boldSystemFont(ofSize: 18),
+                                                                      .foregroundColor: UIColor.black]))
             }
             
             if let description = model.description, description.isEmpty == false {
                 
                 if let title = model.title, title.isEmpty == false {
-                    attributedText.append(NSAttributedString(string: "\n\n", attributes: [.font: UIFont.boldSystemFont(ofSize: 4)]))
+                    // make a small vertical space between title and description
+                    attributedText.append(NSAttributedString(string: "\n\n",
+                                                             attributes: [.font: UIFont.boldSystemFont(ofSize: 4)]))
                 }
                 
-                attributedText.append(NSAttributedString(string: description, attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.gray]))
+                attributedText.append(NSAttributedString(string: description,
+                                                         attributes: [.font: UIFont.systemFont(ofSize: 16),
+                                                                      .foregroundColor: UIColor.gray]))
             }
             
             infoLabel.attributedText = attributedText
@@ -75,6 +85,7 @@ class FactListTableCell: BaseTableCell {
     
     override func initialSetup() {
         
+        // to set minimum height for this cell to display image properly.
         self.heightAnchor.constraint(greaterThanOrEqualToConstant: 124).isActive = true
         
         addSubviews(thumbnail, infoLabel)
@@ -84,6 +95,8 @@ class FactListTableCell: BaseTableCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        // removing previous data from cell object, so cell will use updated info to display
         infoLabel.attributedText = nil
         thumbnail.image = nil
         fact = nil

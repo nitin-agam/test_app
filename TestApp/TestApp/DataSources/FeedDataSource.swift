@@ -20,6 +20,8 @@ class FeedDataSource {
                 if let data = result {
                     do {
                         self.factListViewModel = try JSONDecoder().decode(FactListViewModel.self, from: data)
+                        
+                        // filter data before display it to the controller
                         self.factListViewModel?.filterData()
                         completion(true)
                     } catch {
@@ -44,7 +46,10 @@ struct FactListViewModel: Decodable {
     }
     
     mutating func filterData() {
+        // filter out the objects which does not contain any information to display
         facts = facts.filter { (model) -> Bool in
+            
+            // if any one information is available to display, then it will going to add in array
             
             if let title = model.title, title.isEmpty == false {
                 return true
@@ -57,6 +62,7 @@ struct FactListViewModel: Decodable {
             if let imageHref = model.imageHref, imageHref.isEmpty == false {
                 return true
             }
+            
             return false
         }
     }

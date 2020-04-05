@@ -10,7 +10,7 @@ import UIKit
 
 class FeedController: UITableViewController {
 
-    // MARK: - Variables
+    // MARK: - Properties
     private let activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .gray)
         indicator.hidesWhenStopped = true
@@ -36,7 +36,7 @@ class FeedController: UITableViewController {
     private var tableDataSource: TableDataSource<FactListTableCell, FactModel>?
     
     
-    // MARK: - View LifeCycle
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
@@ -54,9 +54,8 @@ class FeedController: UITableViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         tableView.refreshControl = self.dataRefreshControl
         tableView.tableFooterView = UIView()
-        
-        self.tableView.register(FactListTableCell.self, forCellReuseIdentifier: String(describing: FactListTableCell.self))
-        self.tableView.delegate = self
+        self.tableView.register(FactListTableCell.self,
+                                forCellReuseIdentifier: String(describing: FactListTableCell.self))
     }
     
     private func noDataViewSetup() {
@@ -69,21 +68,29 @@ class FeedController: UITableViewController {
         if let message = message {
             self.noDataLabel.isHidden = false
             self.noDataLabel.text = message
-           // self.tableView.isHidden = true
         } else {
             self.noDataLabel.isHidden = true
             self.noDataLabel.text = nil
-          //  self.tableView.isHidden = false
         }
     }
     
-    private func fetchData() {
+    private func fetchData(refreshing: Bool = false) {
+        
+        // check first for internet availablity
         if NetworkManager.shared.networkAvailable {
-            self.activityIndicator.startAnimating()
+            
+            if refreshing == false {
+                self.activityIndicator.startAnimating()
+            }
+            
             dataSource.fetchFeed { [weak self] (isSuccess) in
                 if let self = self {
                     self.activityIndicator.stopAnimating()
                     if isSuccess {
+                        
+                        // remove error message if displaying anything...
+                        self.showErrorLabel(message: nil)
+                        
                         self.dataSourceSetup()
                         self.navigationTitleSetup()
                         DispatchQueue.main.async {
@@ -97,7 +104,11 @@ class FeedController: UITableViewController {
             }
         } else {
             self.dataRefreshControl.endRefreshing()
-            self.showErrorLabel(message: "No internet available")
+            
+            // when user just refreshing the data, then user will see the old data when no internet available.
+            if refreshing == false {
+                self.showErrorLabel(message: "No internet available")
+            }
         }
     }
     
@@ -122,31 +133,6 @@ class FeedController: UITableViewController {
     }
     
     @objc private func handleRefreshControl() {
-        
-        fetchData()
+        fetchData(refreshing: true)
     }
-}
-
-// UITableView's Delegates
-extension FeedController {
-    
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-////        if let facts = self.dataSource.factListViewModel?.facts {
-////            let factModel = facts[indexPath.row]
-////            let textHeight = Utility.textHeight(width: view.frame.width - 186, font: UIFont.systemFont(ofSize: 16), text: factModel.fullText) + 24
-////            print("text: \(factModel.title) and height: ", textHeight)
-////            return textHeight
-////        }
-////        return 0
-////        return UITableView.automaticDimension
-//        if UITableView.automaticDimension > 124 {
-//            print("returning auto")
-//           return UITableView.automaticDimension
-//        } else {
-//            print("returning 124: hh: \(UITableView.automaticDimension)")
-//            return 124
-//        }
-//    //    return (UITableView.automaticDimension > 124) ? UITableView.automaticDimension : 124
-//
-//    }
 }

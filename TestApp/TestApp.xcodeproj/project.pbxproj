@@ -12,7 +12,6 @@
 		180A524824391A4400939915 /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180A524724391A4400939915 /* TableViewDataSource.swift */; };
 		180A524A24391B3100939915 /* FactListTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180A524924391B3100939915 /* FactListTableCell.swift */; };
 		180A524F24391F2400939915 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180A524E24391F2400939915 /* UIView+Extension.swift */; };
-		180A52512439250F00939915 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180A52502439250F00939915 /* Utility.swift */; };
 		18EB856D2438F5F800579F03 /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EB856C2438F5F800579F03 /* FeedController.swift */; };
 		18EB856F2438F76300579F03 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EB856E2438F76300579F03 /* NetworkManager.swift */; };
 		18EB85722438FA9B00579F03 /* FeedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18EB85712438FA9B00579F03 /* FeedDataSource.swift */; };
@@ -29,7 +28,6 @@
 		180A524724391A4400939915 /* TableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		180A524924391B3100939915 /* FactListTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactListTableCell.swift; sourceTree = "<group>"; };
 		180A524E24391F2400939915 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		180A52502439250F00939915 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		18EB856C2438F5F800579F03 /* FeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController.swift; sourceTree = "<group>"; };
 		18EB856E2438F76300579F03 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		18EB85712438FA9B00579F03 /* FeedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDataSource.swift; sourceTree = "<group>"; };
@@ -103,15 +101,13 @@
 		18F7A7AE2436269600D74BA3 /* TestApp */ = {
 			isa = PBXGroup;
 			children = (
+				18F7A7C8243628CC00D74BA3 /* AppDelegate */,
+				18F7A7C32436288600D74BA3 /* Models */,
+				18F7A7C42436288F00D74BA3 /* Views */,
+				18F7A7C52436289B00D74BA3 /* Controllers */,
 				180A524D24391F1000939915 /* Extensions */,
 				18EB85732438FB1800579F03 /* Networking */,
 				18EB85702438FA8500579F03 /* DataSources */,
-				18F7A7C8243628CC00D74BA3 /* AppDelegate */,
-				18F7A7C7243628B400D74BA3 /* Utilities */,
-				18F7A7C6243628A600D74BA3 /* Managers */,
-				18F7A7C52436289B00D74BA3 /* Controllers */,
-				18F7A7C42436288F00D74BA3 /* Views */,
-				18F7A7C32436288600D74BA3 /* Models */,
 				18F7A7B82436269800D74BA3 /* Assets.xcassets */,
 				18F7A7BA2436269800D74BA3 /* LaunchScreen.storyboard */,
 				18F7A7BD2436269800D74BA3 /* Info.plist */,
@@ -142,21 +138,6 @@
 				18EB856C2438F5F800579F03 /* FeedController.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		18F7A7C6243628A600D74BA3 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
-		18F7A7C7243628B400D74BA3 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				180A52502439250F00939915 /* Utility.swift */,
-			);
-			path = Utilities;
 			sourceTree = "<group>";
 		};
 		18F7A7C8243628CC00D74BA3 /* AppDelegate */ = {
@@ -301,7 +282,6 @@
 				18EB85752438FB3D00579F03 /* NetworkKeys.swift in Sources */,
 				180A524A24391B3100939915 /* FactListTableCell.swift in Sources */,
 				18EB856F2438F76300579F03 /* NetworkManager.swift in Sources */,
-				180A52512439250F00939915 /* Utility.swift in Sources */,
 				180A524824391A4400939915 /* TableViewDataSource.swift in Sources */,
 				18F7A7B02436269600D74BA3 /* AppDelegate.swift in Sources */,
 				180A5244243912F500939915 /* FactModel.swift in Sources */,
@@ -446,6 +426,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -465,6 +446,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -8,6 +8,7 @@
 
 import UIKit
 
+// create a subclass of "BaseTableCell" to get the basic customization for a table cell.
 class BaseTableCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

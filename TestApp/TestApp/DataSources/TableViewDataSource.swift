@@ -8,28 +8,30 @@
 
 import UIKit
 
+// custom data source for a table view to reduce code redundancy.
 class TableDataSource<CellType, DataModel>: NSObject, UITableViewDataSource where CellType: UITableViewCell {
     
-    let cellIdentifier: String
-    var items: [DataModel]
-    let configureCell: (CellType, DataModel) -> ()
+    // MARK: - Properties
+    private let cellIdentifier: String
+    private var items: [DataModel]
+    private let configureCell: (CellType, DataModel) -> ()
     
+    
+    // MARK: - Initializer
     init(identifier: String, items: [DataModel], configure: @escaping (CellType, DataModel) -> ()) {
         self.cellIdentifier = identifier
         self.items = items
         self.configureCell = configure
     }
     
-    func updateItems(_ items: [DataModel]) {
-        self.items = items
-    }
     
+    // MARK: - UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        items.isEmpty ? 0 : 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

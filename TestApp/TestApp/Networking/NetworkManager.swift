@@ -14,12 +14,15 @@ let kAPILogEnabled = true
 
 public class NetworkManager {
     
+    // MARK: - Properties
     static let shared = NetworkManager()
     
     var networkAvailable: Bool {
         NetworkReachabilityManager()?.isReachable == true
     }
     
+    
+    // MARK: - Public Methods
     func sendRequest(request: URLRequest,
                      completion: @escaping (_ data: Data?, _ error: Error?) -> ()) -> Void {
         

@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        // set initial view controller to the window...
         let navigation = UINavigationController(rootViewController: FeedController())
         window?.rootViewController = navigation
         window?.makeKeyAndVisible()

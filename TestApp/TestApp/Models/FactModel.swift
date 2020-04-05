@@ -9,12 +9,7 @@
 import Foundation
 
 struct FactModel: Decodable {
-    
     var title: String?
     var description: String?
     var imageHref: String?
-    
-    var fullText: String {
-        (title ?? "") + "\n" + (description ?? "")
-    }
 }
