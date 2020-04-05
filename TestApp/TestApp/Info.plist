@@ -24,16 +24,6 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
-		<key>NSAllowsArbitraryLoadsForMedia</key>
-		<true/>
-		<key>NSAllowsArbitraryLoadsInWebContent</key>
-		<true/>
-		<key>NSExceptionAllowsInsecureHTTPLoads</key>
-		<true/>
-		<key>NSIncludesSubdomains</key>
-		<true/>
-		<key>NSThirdPartyExceptionAllowsInsecureHTTPLoads</key>
-		<true/>
 	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

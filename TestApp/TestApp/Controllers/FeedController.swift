@@ -32,7 +32,7 @@ class FeedController: UITableViewController {
     // MARK: - Private Methods
     private func initialSetup() {
         view.backgroundColor = .white
-        tableView.estimatedRowHeight = 120
+        tableView.estimatedRowHeight = 500
         tableView.rowHeight = UITableView.automaticDimension
         tableView.allowsSelection = false
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -84,13 +84,23 @@ class FeedController: UITableViewController {
 // UITableView's Delegates
 extension FeedController {
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if let facts = self.dataSource.factListViewModel?.facts {
-//            let factModel = facts[indexPath.row]
-//           // let textHeight = Utility.textHeight(width: <#T##CGFloat#>, font: <#T##UIFont#>, text: <#T##String#>)
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+////        if let facts = self.dataSource.factListViewModel?.facts {
+////            let factModel = facts[indexPath.row]
+////            let textHeight = Utility.textHeight(width: view.frame.width - 186, font: UIFont.systemFont(ofSize: 16), text: factModel.fullText) + 24
+////            print("text: \(factModel.title) and height: ", textHeight)
+////            return textHeight
+////        }
+////        return 0
+////        return UITableView.automaticDimension
+//        if UITableView.automaticDimension > 124 {
+//            print("returning auto")
+//           return UITableView.automaticDimension
+//        } else {
+//            print("returning 124: hh: \(UITableView.automaticDimension)")
+//            return 124
 //        }
-//        return UITableView.automaticDimension
-        return (UITableView.automaticDimension > 120) ? UITableView.automaticDimension : 120
-
-    }
+//    //    return (UITableView.automaticDimension > 124) ? UITableView.automaticDimension : 124
+//
+//    }
 }

@@ -30,6 +30,7 @@ class FactListTableCell: BaseTableCell {
             guard let model = fact else { return }
             
             if let imageUrl = URL(string: model.imageHref ?? "") {
+                self.thumbnailWidthConstraint.constant = 150
                 self.thumbnail.sd_setImage(with: imageUrl,
                                                     placeholderImage: nil,
                                                     options: .avoidAutoSetImage)
@@ -44,6 +45,8 @@ class FactListTableCell: BaseTableCell {
                         }
                     }
                 }
+            } else {
+                self.thumbnailWidthConstraint.constant = 0
             }
             
             let attributedText = NSMutableAttributedString()
@@ -64,12 +67,18 @@ class FactListTableCell: BaseTableCell {
         }
     }
     
+    private var thumbnailWidthConstraint: NSLayoutConstraint!
+    
     override func initialSetup() {
         
+        self.heightAnchor.constraint(greaterThanOrEqualToConstant: 124).isActive = true
+        
         addSubviews(thumbnail, infoLabel)
-        thumbnail.makeConstraints(top: topAnchor, left: nil, right: rightAnchor, bottom: nil, topMargin: 12, leftMargin: 0, rightMargin: 12, bottomMargin: 0, width: 0, height: 0)
-        thumbnail.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.35).isActive = true
-        thumbnail.heightAnchor.constraint(equalTo: thumbnail.widthAnchor, multiplier: 0.7).isActive = true
+        thumbnail.makeConstraints(top: topAnchor, left: nil, right: rightAnchor, bottom: nil, topMargin: 12, leftMargin: 0, rightMargin: 12, bottomMargin: 0, width: 0, height: 100)
+        thumbnailWidthConstraint = thumbnail.widthAnchor.constraint(equalToConstant: 150)
+        thumbnailWidthConstraint.isActive = true
+//        thumbnail.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.35).isActive = true
+//        thumbnail.heightAnchor.constraint(equalTo: thumbnail.widthAnchor, multiplier: 0.7).isActive = true
 
         infoLabel.makeConstraints(top: topAnchor, left: leftAnchor, right: thumbnail.leftAnchor, bottom: bottomAnchor, topMargin: 12, leftMargin: 12, rightMargin: 8, bottomMargin: 12, width: 0, height: 0)
     }
