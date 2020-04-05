@@ -25,10 +25,11 @@ class FeedDataSource {
                     } catch {
                         completion(false)
                     }
+                } else {
+                    completion(false)
                 }
             }
         }
-        completion(false)
     }
 }
 

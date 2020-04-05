@@ -9,21 +9,21 @@
 import Foundation
 import Alamofire
 
+// you can print all the logs on console by controlling this constant.
 let kAPILogEnabled = true
-
-enum kHTTPMethod: String {
-    case GET, POST
-}
 
 public class NetworkManager {
     
     static let shared = NetworkManager()
     
-    // MARK: - Public Methods
+    var networkAvailable: Bool {
+        NetworkReachabilityManager()?.isReachable == true
+    }
+    
     func sendRequest(request: URLRequest,
                      completion: @escaping (_ data: Data?, _ error: Error?) -> ()) -> Void {
         
-        if NetworkReachabilityManager()?.isReachable == true {
+        if self.networkAvailable {
             
             if kAPILogEnabled {
                 print("network_manager: URL String: \(String(describing: request.url?.absoluteString)) and parameters: \(String(describing: request.httpBody))")
@@ -31,7 +31,11 @@ public class NetworkManager {
             
             AF.request(request).responseJSON(completionHandler:
                 { (DataResponse) in
-                    guard let data = DataResponse.data else { return }
+                    guard let data = DataResponse.data else {
+                        completion(nil, nil)
+                        return
+                    }
+                    
                     let formattedData = self.formatData(data: data)
                     
                     if kAPILogEnabled {
@@ -51,20 +55,6 @@ public class NetworkManager {
             return (Data(utf8Data))
         }
         return (nil)
-    }
-    
-    private func jsonFromData(data: Data) -> (responseData: Any?, error: Error?) {
-        if let utf8Data = String(decoding: data, as: UTF8.self).data(using: .utf8) {
-            do {
-                let dataObject = Data(utf8Data)
-                let responseData = try JSONSerialization.jsonObject(with: dataObject,
-                                                                    options: .allowFragments)
-                return (responseData, nil)
-            } catch let error {
-                return (nil, error)
-            }
-        }
-        return (nil, nil)
     }
 }
 

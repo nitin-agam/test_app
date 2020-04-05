@@ -11,6 +11,21 @@ import UIKit
 class FeedController: UITableViewController {
 
     // MARK: - Variables
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .gray)
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
+    private let noDataLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.textAlignment = .center
+        label.isHidden = true
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .lightGray
+        return label
+    }()
+    
     private let dataRefreshControl: UIRefreshControl = {
         let refresher = UIRefreshControl(frame: .zero)
         refresher.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
@@ -25,6 +40,7 @@ class FeedController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
+        noDataViewSetup()
         fetchData()
     }
     
@@ -37,23 +53,51 @@ class FeedController: UITableViewController {
         tableView.allowsSelection = false
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         tableView.refreshControl = self.dataRefreshControl
+        tableView.tableFooterView = UIView()
         
         self.tableView.register(FactListTableCell.self, forCellReuseIdentifier: String(describing: FactListTableCell.self))
         self.tableView.delegate = self
     }
     
+    private func noDataViewSetup() {
+        view.addSubviews(activityIndicator, noDataLabel)
+        activityIndicator.makeConstraints(centerX: view.centerXAnchor, centerY: view.centerYAnchor)
+        noDataLabel.makeConstraints(centerX: view.centerXAnchor, centerY: view.centerYAnchor)
+    }
+    
+    private func showErrorLabel(message: String?) {
+        if let message = message {
+            self.noDataLabel.isHidden = false
+            self.noDataLabel.text = message
+           // self.tableView.isHidden = true
+        } else {
+            self.noDataLabel.isHidden = true
+            self.noDataLabel.text = nil
+          //  self.tableView.isHidden = false
+        }
+    }
+    
     private func fetchData() {
-        dataSource.fetchFeed { [weak self] (isSuccess) in
-            if let self = self {
-                if isSuccess {
-                    self.dataSourceSetup()
-                    self.navigationTitleSetup()
-                    DispatchQueue.main.async {
-                        self.dataRefreshControl.endRefreshing()
-                        self.tableView.reloadData()
+        if NetworkManager.shared.networkAvailable {
+            self.activityIndicator.startAnimating()
+            dataSource.fetchFeed { [weak self] (isSuccess) in
+                if let self = self {
+                    self.activityIndicator.stopAnimating()
+                    if isSuccess {
+                        self.dataSourceSetup()
+                        self.navigationTitleSetup()
+                        DispatchQueue.main.async {
+                            self.dataRefreshControl.endRefreshing()
+                            self.tableView.reloadData()
+                        }
+                    } else {
+                        self.showErrorLabel(message: "Something went wrong")
                     }
                 }
             }
+        } else {
+            self.dataRefreshControl.endRefreshing()
+            self.showErrorLabel(message: "No internet available")
         }
     }
     
@@ -64,7 +108,7 @@ class FeedController: UITableViewController {
     }
     
     private func dataSourceSetup() {
-        if let facts = self.dataSource.factListViewModel?.facts {
+        if let facts = self.dataSource.factListViewModel?.facts, facts.isEmpty == false {
             self.tableDataSource = TableDataSource(identifier: String(describing: FactListTableCell.self),
                                                    items: facts,
                                                    configure:
@@ -72,6 +116,8 @@ class FeedController: UITableViewController {
                     cell.fact = factModel
             })
             self.tableView.dataSource = self.tableDataSource
+        } else {
+            self.showErrorLabel(message: "No data available")
         }
     }
     

@@ -10,6 +10,7 @@ import UIKit
 
 extension UIView {
     
+    // to set constraints for all the sides
     func makeConstraints(top: NSLayoutYAxisAnchor?,
                          left: NSLayoutXAxisAnchor?,
                          right: NSLayoutXAxisAnchor?,
@@ -47,6 +48,14 @@ extension UIView {
         }
     }
     
+    // to set constraints for center axis
+    func makeConstraints(centerX: NSLayoutXAxisAnchor, centerY: NSLayoutYAxisAnchor) {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.centerXAnchor.constraint(equalTo: centerX).isActive = true
+        self.centerYAnchor.constraint(equalTo: centerY).isActive = true
+    }
+    
+    // to add mutiple subviews in a single line
     func addSubviews(_ views: UIView...) {
         views.forEach{addSubview($0)}
     }
